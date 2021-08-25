@@ -1,5 +1,5 @@
 {
-  "name": "dookie",
+  "name": "@aikon/dookie",
   "version": "0.4.2",
   "description": "Stylus-inspired preprocessor for MongoDB data sets and fixtures",
   "keywords": [

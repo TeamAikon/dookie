@@ -25,7 +25,7 @@ function standardizePushOptions(options) {
 
 function push(uri, data, options) {
   return co(function*() {
-    const client = yield mongodb.MongoClient.connect(uri);
+    const client = yield mongodb.MongoClient.connect(uri, { useNewUrlParser: true, useUnifiedTopology: true });
     const db = client.db();
     options = standardizePushOptions(options);
 
@@ -88,12 +88,12 @@ function push(uri, data, options) {
 
         docs[i] = ejson.deserialize(doc);
       }
-      promises.push(db.collection(collection).insert(docs));
-    }
-    if (get(options, 'clearConnection', null)) {
-      yield db.close();
+      promises.push(db.collection(collection).insertMany(docs));
     }
     const res = yield promises;
+    if (get(options, 'clearConnection', null)) {
+      yield client.close();
+    }
     return res;
   });
 }
@@ -148,7 +148,7 @@ function pull(uri, options) {
     });
 
     if (get(options, 'clearConnection', null)) {
-      yield db.close();
+      yield client.close();
     }
 
     return res;

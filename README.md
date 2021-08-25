@@ -260,3 +260,9 @@ database in tests with ease.
     })
   
 ```
+
+## AIKON updates
+
+Forked this repo to fix a few bugs:
+- Now uses latest Mongo connection params
+- Now closes Mongo connection after push and pull (if options.clearConnection = true)
